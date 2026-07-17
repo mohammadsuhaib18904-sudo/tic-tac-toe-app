@@ -1,0 +1,41 @@
+name: Android Cloud APK Builder
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Source
+        uses: actions/checkout@v4
+
+      - name: Set up Java Environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '7.6.3'
+
+      - name: Download App Dependencies
+        run: flutter pub get
+
+      - name: Compile Release APK Package
+        run: flutter build apk --release
+
+      - name: Upload Finished APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
