@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FLUTTER_VERSION: '3.44.6'
     defaults:
       run:
         working-directory: ./tic-tac-toe-app-copilot-fix-failing-github-actions-job
@@ -25,6 +27,12 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Clean Flutter and Gradle Caches
+        run: |
+          flutter clean
+          rm -rf ~/.gradle/caches
 
       - name: Download App Dependencies
         run: flutter pub get
