@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./tic-tac-toe-app-copilot-fix-failing-github-actions-job
 
     steps:
       - name: Checkout Repository Source
@@ -23,11 +26,6 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '7.6.3'
-
       - name: Download App Dependencies
         run: flutter pub get
 
@@ -38,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: tic-tac-toe-app-copilot-fix-failing-github-actions-job/build/app/outputs/flutter-apk/app-release.apk
